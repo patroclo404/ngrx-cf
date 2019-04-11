@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
             Validators.pattern(/[A-Za-z\d!@#$%^&*()-+<>]{8,20}/)
           ]
         ),
+        username: new FormControl('username'),
       });
   }
 
@@ -55,8 +56,8 @@ export class LoginComponent implements OnInit {
       this.authService.userLogin(this.loginForm.value)
       .subscribe( (res) => {
         this.onLogin = false;
-        this.router.navigate(['/dashboard']);
-
+        console.log(res);
+        this.msgLogin = (res) ? '' : 'Invalid user or password';
       }, (error) => {
         this.onLogin = false;
         this.msgLogin = 'Invalid user or password';

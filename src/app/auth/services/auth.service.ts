@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-// import { Http, Response } from '@angular/http';
-// import { Headers, RequestOptions } from '@angular/http';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, delay } from 'rxjs/operators';
 import { of } from 'rxjs';
+
+import { IUser } from '../../interfaces/iuser';
 
 @Injectable({
   providedIn: 'root'
@@ -17,23 +16,34 @@ export class AuthService {
   urlLogin: string = `${this.apiUrl}/users/user/login`;
   urlUser: string = `${this.apiUrl}/users/user`;
 
+  userFake: IUser = {
+    username: 'fake',
+    email: 'a@mail.com',
+    password: '12345'
+  };
+
   constructor(
     private http: HttpClient,
     private route: Router,
   ) { }
 
   userLogin(req) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json'
+    //   })
+    // };
 
-    // tslint:disable-next-line:align
-    return this.http.post(this.urlLogin, req, httpOptions)
-    .pipe(
-      catchError(this.handleError)
-    );
+    // // tslint:disable-next-line:align
+    // return this.http.post(this.urlLogin, req, httpOptions)
+    // .pipe(
+    //   catchError(this.handleError)
+    // );
+    let send = false;
+    if (JSON.stringify(req) === JSON.stringify(this.userFake)) {
+      send = true;
+    }
+    return of (send).pipe(delay(5000));
   }
 
   private handleError(error: HttpErrorResponse) {
