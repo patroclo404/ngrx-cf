@@ -1,0 +1,26 @@
+<div class="container-fluid py-5">
+  <div class="row">
+    <div class="col-xs-12 col-md-4 offset-md-4">
+      <form [formGroup]="loginForm">
+        <div class="form-group">
+          <label for="tt-email">Email address</label>
+          <input type="email" formControlName="email" class="form-control" id="tt-email" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="tt-pwd">Password</label>
+          <input type="password" formControlName="password" class="form-control" id="tt-pwd" placeholder="Password">
+        </div>
+        <button type="submit"
+        (click)="submitLogin()"
+        [disabled]="onLogin"
+        class="btn btn-primary">
+          Submit
+          <i class="fas fa-spinner fa-spin" *ngIf="onLogin" ></i>
+        </button>
+      </form>
+      <p>
+        {{msgLogin}}
+      </p>
+    </div>
+  </div>
+</div>
