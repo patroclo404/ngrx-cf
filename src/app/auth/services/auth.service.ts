@@ -27,7 +27,7 @@ export class AuthService {
     private route: Router,
   ) { }
 
-  userLogin(req) {
+  userLogin(user: IUser): Observable<any> {
     // const httpOptions = {
     //   headers: new HttpHeaders({
     //     'Content-Type': 'application/json'
@@ -39,11 +39,22 @@ export class AuthService {
     // .pipe(
     //   catchError(this.handleError)
     // );
-    let send = false;
-    if (JSON.stringify(req) === JSON.stringify(this.userFake)) {
-      send = true;
+    // emular un true
+    let toSend = {
+      isLoading: false,
+      error: true,
+      ...user
+    };
+    if (JSON.stringify(user) === JSON.stringify(this.userFake)) {
+      toSend = {
+        isLoading: false,
+        error: false,
+        ...user
+      };
+    } else {
+      return throwError('Invalid username or password Service').pipe(delay(5000));
     }
-    return of (send).pipe(delay(5000));
+    return of (toSend).pipe(delay(5000));
   }
 
   private handleError(error: HttpErrorResponse) {

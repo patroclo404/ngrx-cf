@@ -18,7 +18,7 @@ import { storeFreeze  } from 'ngrx-store-freeze';
 
 // State interface it's like a map
 export interface State {
-  auth: fromAuth.state;
+  auth: fromAuth.State;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
@@ -41,12 +41,22 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
 ? [logger, storeFreeze]
 : [];
 
-export const getAuthState = createFeatureSelector<fromAuth.state>('auth');
+export const getAuthState = createFeatureSelector<fromAuth.State>('auth');
 
-export const getAut = createSelector(
+export const getAuth = createSelector(
   getAuthState,
   fromAuth.getAuthState
-)
+);
+
+export const getAuthLoading = createSelector(
+  getAuthState,
+  fromAuth.getAuthLoading
+);
+
+export const getAuthError = createSelector(
+  getAuthState,
+  fromAuth.getAuthError
+);
 
 
 

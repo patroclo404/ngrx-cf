@@ -25,11 +25,12 @@ import { reducers, metaReducers } from './reducers/reducers';
 const NGRX_IMPORTS = [
   StoreModule.forRoot(reducers, { metaReducers }),
   StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
-  EffectsModule.forRoot([]),
   StoreDevtoolsModule.instrument({
-    name: 'AngularChatNgRx',
+    name: 'AngularChatNGRX',
     logOnly: environment.production,
-  })
+    maxAge: 25
+  }),
+  EffectsModule.forRoot([])
 ];
 
 

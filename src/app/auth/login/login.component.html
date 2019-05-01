@@ -10,16 +10,22 @@
           <label for="tt-pwd">Password</label>
           <input type="password" formControlName="password" class="form-control" id="tt-pwd" placeholder="Password">
         </div>
+        <div [hidden]="!(isLoading$ | async)" class="alert alert-primary" role="alert">
+            Loading...
+          </div>
         <button type="submit"
         (click)="submitLogin()"
         [disabled]="onLogin"
         class="btn btn-primary">
           Submit
-          <i class="fas fa-spinner fa-spin" *ngIf="onLogin" ></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="error$ | async" ></i>
         </button>
       </form>
       <p>
-        {{msgLogin}}
+        {{error$ | async}}
+      </p>
+      <p>
+        {{isLoading$ | async}}
       </p>
     </div>
   </div>

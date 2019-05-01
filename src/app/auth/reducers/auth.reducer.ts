@@ -16,17 +16,41 @@ const initianState: State = {
   isLoading: false,
 };
 
-export function authReducer(state = [], action: AuthActions.actions) {
+export function AuthReducer(state = [], action: AuthActions.actions) {
   switch (action.type) {
     case AuthActionTypes.LoginUser:
-      return action;
+      console.log('reducer entre en login');
+      return {
+        ...state,
+        isLoading: true,
+        action
+      };
     case AuthActionTypes.LoggedUser:
+      console.log('entre al logged');
       return {
         ...state,
         isLoading: false,
-        token: action.payload,
+        tokens: action.payload,
+      };
+    case AuthActionTypes.LoginUserError:
+      console.log('entre al error');
+      return {
+        ...state,
+        isLoading: false,
+        error: 'Email or password incorrect auth action'
       };
     default:
       return state;
   }
 }
+
+export const getAuthState = (state: State) => state.user;
+export const getAuthAction = (action: any) => action.payload;
+export const getAuthError = (state: any) => {
+  console.log('error state', state.auth.error);
+  return state.auth.error;
+};
+export const getAuthLoading = (state: any) => {
+  console.log('loading', state.auth.isLoading);
+  return state.auth.isLoading;
+};
